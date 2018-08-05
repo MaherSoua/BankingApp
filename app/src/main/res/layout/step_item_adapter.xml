@@ -5,7 +5,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:divider="?android:dividerHorizontal"
     android:showDividers="end"
-    android:background="@drawable/step_item"
     android:orientation="vertical"
     android:paddingTop="5dp">
 

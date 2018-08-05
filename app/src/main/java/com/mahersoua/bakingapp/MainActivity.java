@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Log.d("MainActivity", ">>>> "+getSupportFragmentManager().getBackStackEntryCount());
         initActionBarTitle();
         if(item.getItemId() == android.R.id.home){
             onBackPressed();

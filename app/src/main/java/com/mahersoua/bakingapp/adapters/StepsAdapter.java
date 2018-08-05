@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> {
 
+    private static final String TAG = "StepsAdapter";
     private ArrayList<StepModel> mList;
     private Context mContext;
     private boolean isCollapsed = true;

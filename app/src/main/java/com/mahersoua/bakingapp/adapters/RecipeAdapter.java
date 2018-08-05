@@ -57,7 +57,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
         return 0;
     }
 
-    public class RecipeHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class RecipeHolder extends RecyclerView.ViewHolder{
         private TextView titleTv;
         private View itemView;
         private ImageButton recipeVideoBtn;
@@ -66,21 +66,22 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
             this.itemView = itemView;
             titleTv = itemView.findViewById(R.id.titleTv);
             recipeVideoBtn = itemView.findViewById(R.id.recipeVideoBtn);
-            recipeVideoBtn.setOnClickListener(this);
+            recipeVideoBtn.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    if(v.getId() == R.id.recipeVideoBtn){
+                        RecipeDetailsFragment recipeDetailsFragment = new RecipeDetailsFragment();
+                        recipeDetailsFragment.setRecipeInfo(mList.get((int) v.getTag()), mContext);
+
+                        FragmentManager fragmentManager =   ((AppCompatActivity) mContext).getSupportFragmentManager();
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.fragmentContainer, recipeDetailsFragment)
+                                .addToBackStack("Details")
+                                .commit();
+                    }
+                }
+            });
         };
-
-        @Override
-        public void onClick(View v) {
-            RecipeDetailsFragment recipeDetailsFragment = new RecipeDetailsFragment();
-            recipeDetailsFragment.setRecipeInfo(mList.get((int) v.getTag()), mContext);
-
-            FragmentManager fragmentManager =   ((AppCompatActivity) mContext).getSupportFragmentManager();
-            fragmentManager.beginTransaction()
-            .replace(R.id.fragmentContainer, recipeDetailsFragment)
-            .addToBackStack("Details")
-            .commit();
-
-            Log.d("RecipeAdpater" , "Click item "+v.getTag());
-        }
     }
 }
