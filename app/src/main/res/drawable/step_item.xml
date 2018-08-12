@@ -3,4 +3,16 @@
     <item android:state_pressed="true">
         <color android:color="#FFEAEAEA" />
     </item>
+
+    <item android:state_active="true">
+        <color android:color="#FFEAEAEA" />
+    </item>
+
+    <item android:state_selected="true">
+        <color android:color="#FFEAEAEA" />
+    </item>
+
+    <item android:state_focused="true">
+        <color android:color="#FFEAEAEA" />
+    </item>
 </selector>

@@ -15,22 +15,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.StepModel;
-import com.mahersoua.bakingapp.viewmodels.SelectedRecipeModel;
 import com.mahersoua.user.bakingapp.R;
 
 import java.util.ArrayList;
 
-public class StepDetailsFragment extends Fragment implements View.OnClickListener {
+public class StepDetailsFragment extends Fragment implements View.OnClickListener, IStepAdapter {
 
     private static final String TAG = "StepDetailsFragment";
     private ArrayList<StepModel> mStepList;
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
-    private SelectedRecipeModel selectedRecipeModel;
     private Button nextStep;
     private Button previousStep;
     private int currentIndex = 0;
+    private IStepDetails mListener;
 
     public void setStepList(ArrayList<StepModel> stepList){
         mStepList = stepList;
@@ -43,17 +43,16 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        selectedRecipeModel = ViewModelProviders.of(this).get(SelectedRecipeModel.class);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        if(mStepList == null){
-            mStepList = selectedRecipeModel.getStepList();
-        } else {
-            selectedRecipeModel.setStepList(mStepList);
+
+        if( mStepList== null && savedInstanceState != null){
+            mStepList = savedInstanceState.getParcelableArrayList("step-list");
         }
+
         View view = inflater.inflate(R.layout.step_details_fragment, container, false);
         mViewPager = view.findViewById(R.id.pager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -65,6 +64,9 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
             @Override
             public void onPageSelected(int position) {
                 currentIndex = position;
+                if(mListener != null) {
+                    mListener.onViewChange(position);
+                }
                 udpateVisibility();
             }
 
@@ -82,6 +84,14 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         previousStep.setOnClickListener(this);
         udpateVisibility();
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if(mStepList != null){
+            outState.putParcelableArrayList("step-list", mStepList);
+        }
     }
 
     @Override
@@ -128,6 +138,16 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         }
     }
 
+    public void setListener(IStepDetails listener) {
+        mListener = listener;
+    }
+
+    @Override
+    public void onItemClicked(int index) {
+        currentIndex = index;
+        mViewPager.setCurrentItem(index);
+    }
+
     private class StepSlideAdapter extends FragmentStatePagerAdapter {
 
         public StepSlideAdapter(FragmentManager fm) {
@@ -136,7 +156,6 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
 
         @Override
         public Fragment getItem(int position) {
-            Log.d(TAG , "getItem");
             StepItemFragment stepItemFragment = new StepItemFragment();
             stepItemFragment.setStepModel(mStepList.get(position));
             return stepItemFragment;
@@ -146,5 +165,9 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         public int getCount() {
             return mStepList.size();
         }
+    }
+
+    public interface IStepDetails {
+        void onViewChange(int position);
     }
 }

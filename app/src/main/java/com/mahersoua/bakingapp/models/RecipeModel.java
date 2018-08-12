@@ -1,13 +1,35 @@
 package com.mahersoua.bakingapp.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.JsonArray;
 
-public class RecipeModel {
+public class RecipeModel implements Parcelable {
     private int id;
     private String name;
     private JsonArray ingredients;
     private JsonArray steps;
     private int servings;
+
+    protected RecipeModel(Parcel in) {
+        id = in.readInt();
+        name = in.readString();
+        servings = in.readInt();
+        image = in.readString();
+    }
+
+    public static final Creator<RecipeModel> CREATOR = new Creator<RecipeModel>() {
+        @Override
+        public RecipeModel createFromParcel(Parcel in) {
+            return new RecipeModel(in);
+        }
+
+        @Override
+        public RecipeModel[] newArray(int size) {
+            return new RecipeModel[size];
+        }
+    };
 
     public int getId() {
         return id;
@@ -58,4 +80,17 @@ public class RecipeModel {
     }
 
     private String image;
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
+        dest.writeString(name);
+        dest.writeInt(servings);
+        dest.writeString(image);
+    }
 }

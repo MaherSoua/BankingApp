@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mahersoua.bakingapp.fragment.StepDetailsFragment;
+import com.mahersoua.bakingapp.fragment.StepDetailsFragment.IStepDetails;
+
 import com.mahersoua.bakingapp.models.StepModel;
 import com.mahersoua.user.bakingapp.R;
 
@@ -22,6 +24,8 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> 
     private ArrayList<StepModel> mList;
     private Context mContext;
     private boolean isCollapsed = true;
+    private IStepAdapter mListener;
+    private int selectedPos = 0;
 
     public StepsAdapter(Context context, ArrayList<StepModel> list){
         mList = list;
@@ -38,7 +42,12 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> 
     @Override
     public void onBindViewHolder(@NonNull StepHolder holder, int position) {
         holder.recipeName.setText(mList.get(position).getDescription());
-        holder.recipeName.setTag(position);
+        holder.mItemView.setTag(position);
+        if(position == selectedPos){
+            holder.itemView.setSelected(true);
+        } else {
+            holder.itemView.setSelected(false);
+        }
     }
 
     @Override
@@ -49,30 +58,52 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> 
         return 0;
     }
 
+    public void setListener(IStepAdapter listener){
+        mListener = listener;
+    }
+
     public void toggle(){
         isCollapsed = !isCollapsed;
         notifyDataSetChanged();
     }
 
+    public void onPageViewChange(int position){
+        Log.d("StepsAdpater", ""+position);
+        selectedPos = position;
+        notifyDataSetChanged();
+    }
+
     class StepHolder extends RecyclerView.ViewHolder {
         TextView recipeName;
+        View mItemView;
         public StepHolder(View itemView) {
             super(itemView);
+            mItemView = itemView;
             recipeName = itemView.findViewById(R.id.stepName);
 
             itemView.setOnClickListener(new View.OnClickListener(){
 
                 @Override
                 public void onClick(View v) {
-                    StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
-                    stepDetailsFragment.setStepList(mList);
-                    ((AppCompatActivity )mContext).getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.fragmentContainer, stepDetailsFragment)
-                            .addToBackStack("StepDetails")
-                            .commit();
+                    if(mContext.getResources().getBoolean(R.bool.isTablet)) {
+                        if(mListener != null){
+                            mListener.onItemClicked((int) v.getTag());
+                        }
+                    } else {
+                        StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
+                        stepDetailsFragment.setStepList(mList);
+                        ((AppCompatActivity )mContext).getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragmentContainer, stepDetailsFragment)
+                                .addToBackStack("StepDetails")
+                                .commit();
+                    }
                 }
             });
         }
+    }
+
+    public interface IStepAdapter {
+        void onItemClicked(int index);
     }
 }

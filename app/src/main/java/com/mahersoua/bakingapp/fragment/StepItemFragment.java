@@ -1,6 +1,5 @@
 package com.mahersoua.bakingapp.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,14 +20,11 @@ import com.google.android.exoplayer2.source.MediaSource;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DefaultBandwidthMeter;
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.mahersoua.bakingapp.models.StepModel;
-import com.mahersoua.bakingapp.viewmodels.SelectedRecipeModel;
 import com.mahersoua.user.bakingapp.R;
 
 import java.util.ArrayList;
@@ -43,8 +39,6 @@ public class StepItemFragment extends Fragment {
     long currentPositionPlayer;
     int currentWindowIndex;
     boolean playWhenReady;
-    private ArrayList<StepModel> selectedStepModel;
-    private SelectedRecipeModel selectedRecipeModel;
 
     public void setStepModel(StepModel stepModel){
         mStepModel = stepModel;
@@ -53,8 +47,6 @@ public class StepItemFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        selectedRecipeModel = ViewModelProviders.of(this).get(SelectedRecipeModel.class);
-
     }
 
     @Nullable
