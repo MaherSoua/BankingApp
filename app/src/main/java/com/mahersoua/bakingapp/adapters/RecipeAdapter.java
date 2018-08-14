@@ -1,6 +1,9 @@
 package com.mahersoua.bakingapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -14,12 +17,13 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.gson.JsonArray;
+import com.mahersoua.bakingapp.activities.RecipeStepsDetailsActivity;
 import com.mahersoua.bakingapp.fragment.RecipeDetailsFragment;
 import com.mahersoua.bakingapp.fragment.RecipeStepsDetailsFragment;
 import com.mahersoua.bakingapp.fragment.StepDetailsFragment;
 import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.bakingapp.models.StepModel;
-import com.mahersoua.bakingapp.utils.JsonUtils;
 import com.mahersoua.user.bakingapp.R;
 
 import java.util.ArrayList;
@@ -82,13 +86,16 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
                         FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
                         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                         if (mContext.getResources().getBoolean(R.bool.isTablet)) {
-                            RecipeStepsDetailsFragment recipeStepsDetailsFragment = new RecipeStepsDetailsFragment();
+                           /* RecipeStepsDetailsFragment recipeStepsDetailsFragment = new RecipeStepsDetailsFragment();
                             recipeStepsDetailsFragment.setData(mList, (int) v.getTag());
-                            Log.d("RecipeAdapter" , ""+mList.size());
 
                             fragmentTransaction.replace(R.id.fragmentContainer, recipeStepsDetailsFragment)
                                     .addToBackStack("Details")
-                                    .commit();
+                                    .commit();*/
+                           Intent intent = new Intent(mContext, RecipeStepsDetailsActivity.class);
+                           intent.putParcelableArrayListExtra("recipe_list",(ArrayList<RecipeModel>) mList);
+
+                           mContext.startActivity(intent);
                         } else {
                             RecipeDetailsFragment recipeDetailsFragment = new RecipeDetailsFragment();
                             recipeDetailsFragment.setRecipeInfo(mList.get((int) v.getTag()), mContext);

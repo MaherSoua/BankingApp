@@ -6,4 +6,28 @@
     android:layout_height="match_parent"
     tools:context=".activities.RecipeStepsDetailsActivity">
 
+    <LinearLayout
+        android:id="@+id/frameLayoutContainer"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:orientation="horizontal">
+        <FrameLayout
+            android:id="@+id/stepsFragmentContnainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"/>
+
+        <FrameLayout
+            android:id="@+id/stepsDetailsContainer"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_weight=".60"
+            android:orientation="vertical"></FrameLayout>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

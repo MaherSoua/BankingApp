@@ -4,19 +4,26 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.JsonArray;
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
 
 public class RecipeModel implements Parcelable {
     private int id;
     private String name;
-    private JsonArray ingredients;
-    private JsonArray steps;
+
+    @SerializedName("ingredients")
+    private ArrayList<IngredientModel> ingredients;
+
+    @SerializedName("steps")
+    private ArrayList<StepModel> steps;
     private int servings;
 
     protected RecipeModel(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        steps = in.createTypedArrayList(StepModel.CREATOR);
         servings = in.readInt();
-        image = in.readString();
     }
 
     public static final Creator<RecipeModel> CREATOR = new Creator<RecipeModel>() {
@@ -47,19 +54,19 @@ public class RecipeModel implements Parcelable {
         this.name = name;
     }
 
-    public JsonArray getIngredients() {
+    public ArrayList<IngredientModel> getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(JsonArray ingredients) {
+    public void setIngredients(ArrayList<IngredientModel> ingredients) {
         this.ingredients = ingredients;
     }
 
-    public JsonArray getSteps() {
+    public ArrayList<StepModel> getSteps() {
         return steps;
     }
 
-    public void setSteps(JsonArray steps) {
+    public void setSteps(ArrayList<StepModel> steps) {
         this.steps = steps;
     }
 
@@ -71,16 +78,6 @@ public class RecipeModel implements Parcelable {
         this.servings = servings;
     }
 
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    private String image;
-
     @Override
     public int describeContents() {
         return 0;
@@ -90,7 +87,7 @@ public class RecipeModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
+        dest.writeTypedList(steps);
         dest.writeInt(servings);
-        dest.writeString(image);
     }
 }

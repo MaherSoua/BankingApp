@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.bakingapp.utils.JsonUtils;
 import com.mahersoua.user.bakingapp.R;
 
 import java.util.ArrayList;
@@ -40,7 +39,7 @@ public class RecipeStepsDetailsFragment extends Fragment implements StepDetailsF
         }
 
         stepDetailsFragment = new StepDetailsFragment();
-        stepDetailsFragment.setStepList(JsonUtils.getStepModel(mList.get(currentPosition).getSteps()));
+        stepDetailsFragment.setStepList(mList.get(currentPosition).getSteps());
         stepDetailsFragment.setListener(this);
 
         recipeDetailsFragment = new RecipeDetailsFragment();

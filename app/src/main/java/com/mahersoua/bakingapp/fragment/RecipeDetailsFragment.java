@@ -18,7 +18,6 @@ import com.mahersoua.bakingapp.adapters.IngredientAdpater;
 import com.mahersoua.bakingapp.adapters.StepsAdapter;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.bakingapp.utils.JsonUtils;
 import com.mahersoua.bakingapp.viewmodels.SelectedRecipeModel;
 import com.mahersoua.user.bakingapp.R;
 
@@ -28,6 +27,7 @@ public class RecipeDetailsFragment extends Fragment {
     private RecipeModel mRecipeModel;
     private StepsAdapter mStepsAdapter;
     private IStepAdapter mListener;
+    private int selectedPosition;
     private StepDetailsFragment.IStepDetails mPageListener;
 
     public RecipeDetailsFragment() {
@@ -52,21 +52,22 @@ public class RecipeDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         if(savedInstanceState != null){
             mRecipeModel = savedInstanceState.getParcelable("recipe_model");
+            selectedPosition = savedInstanceState.getInt("selected_position");
         }
 
         View view = inflater.inflate(R.layout.recipe_details_fragment, container, false);
         RecyclerView ingredientRecylerView = view.findViewById(R.id.ingredientsContainer);
         ingredientRecylerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ingredientRecylerView.setAdapter(new IngredientAdpater(getContext(),
-                JsonUtils.getRecipeModel(mRecipeModel.getIngredients())));
+                mRecipeModel.getIngredients()));
 
         RecyclerView stepsRecylerView = view.findViewById(R.id.stepsContainer);
         stepsRecylerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mStepsAdapter = new StepsAdapter(getContext(),  JsonUtils.getStepModel(mRecipeModel.getSteps()));
+        mStepsAdapter = new StepsAdapter(getContext(),  mRecipeModel.getSteps());
         stepsRecylerView.setAdapter(mStepsAdapter);
         mStepsAdapter.setListener(mListener);
-        int size = mRecipeModel.getSteps().size();
         getActivity().setTitle(mRecipeModel.getName());
+        mStepsAdapter.onPageViewChange(selectedPosition);
 
         TextView stepListHeader = view.findViewById(R.id.stepsLabel);
         stepListHeader.setOnClickListener(new View.OnClickListener (){
@@ -80,12 +81,16 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
     public void onViewChange(int position) {
-        mStepsAdapter.onPageViewChange(position);
+        if(mStepsAdapter != null){
+            mStepsAdapter.onPageViewChange(position);
+        }
+        selectedPosition = position;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("recipe_model", mRecipeModel);
+        outState.putInt("selected_position" , selectedPosition);
     }
 }

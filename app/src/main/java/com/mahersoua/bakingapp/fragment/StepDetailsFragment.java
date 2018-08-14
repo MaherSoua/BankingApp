@@ -1,6 +1,5 @@
 package com.mahersoua.bakingapp.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +65,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
                 if(mListener != null) {
                     mListener.onViewChange(position);
                 }
-                udpateVisibility();
+                udpateButtonState();
             }
 
             @Override
@@ -82,7 +80,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         previousStep = mView.findViewById(R.id.previousStep);
         nextStep.setOnClickListener(this);
         previousStep.setOnClickListener(this);
-        udpateVisibility();
+        udpateButtonState();
 
         return mView;
     }
@@ -94,6 +92,14 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         if(mStepList != null){
             outState.putParcelableArrayList("step-list", mStepList);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        mViewPager.setAdapter(null);
+        mViewPager = null;
+        mPagerAdapter = null;
     }
 
     @Override
@@ -110,7 +116,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
                 mViewPager.setCurrentItem(currentIndex);
                 break;
         }
-        udpateVisibility();
+        udpateButtonState();
     }
 
     private void updateOnNext(){
@@ -127,7 +133,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void udpateVisibility(){
+    private void udpateButtonState(){
         nextStep.setEnabled(true);
         previousStep.setEnabled(true);
 

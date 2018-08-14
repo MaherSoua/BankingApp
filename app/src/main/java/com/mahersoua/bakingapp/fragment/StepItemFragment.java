@@ -60,7 +60,7 @@ public class StepItemFragment extends Fragment {
             mStepModel.setThumbnailURL(savedInstanceState.getString("thumbnail-url"));
             mStepModel.setDescription(savedInstanceState.getString("description"));
         }
-
+        StepModel stepModel = mStepModel;
         mView =  inflater.inflate(R.layout.step_item_fragment , container, false);
         TextView descriptionTv = mView.findViewById(R.id.stepDescription);
         descriptionTv.setText(mStepModel.getDescription());

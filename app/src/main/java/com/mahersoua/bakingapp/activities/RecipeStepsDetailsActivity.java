@@ -10,8 +10,6 @@ import android.os.Bundle;
 import com.mahersoua.bakingapp.fragment.RecipeDetailsFragment;
 import com.mahersoua.bakingapp.fragment.StepDetailsFragment;
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.bakingapp.utils.JsonUtils;
-import com.mahersoua.bakingapp.viewmodels.RecipesViewModel;
 import com.mahersoua.user.bakingapp.R;
 
 import java.util.ArrayList;
@@ -28,29 +26,32 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity implements Ste
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_steps_details);
 
-        Bundle bundle = getIntent().getExtras().getBundle("recipe_args");
+        Intent intent = getIntent();
+        if(intent != null && savedInstanceState == null){
+            currentPosition = intent.getIntExtra("selected_recipe", 0);
+            ArrayList<RecipeModel>  mList = intent.getParcelableArrayListExtra("recipe_list");
 
-        if(bundle != null){
-            ArrayList<RecipeModel> mList = bundle.getParcelableArrayList("recipe_list");
-            currentPosition = bundle.getInt("selected_recipe", 0);
             if(mList != null){
-                if(mList.get(currentPosition).getSteps() == null)
-                    return;
-                StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
-//                stepDetailsFragment.setStepList(JsonUtils.getStepModel(mList.get(currentPosition).getSteps()));
-                stepDetailsFragment.setListener(this);
+                stepDetailsFragment = new StepDetailsFragment();
+                stepDetailsFragment.setStepList(mList.get(currentPosition).getSteps());
 
-                RecipeDetailsFragment recipeDetailsFragment = new RecipeDetailsFragment();
+                recipeDetailsFragment = new RecipeDetailsFragment();
                 recipeDetailsFragment.setRecipeInfo(mList.get(currentPosition), this);
 
                 recipeDetailsFragment.setListener(stepDetailsFragment);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction()
-                        .add(R.id.stepsDetailsContainer, stepDetailsFragment)
-                        .add(R.id.stepsFragmentContnainer, recipeDetailsFragment)
+                        .add(R.id.stepsDetailsContainer, stepDetailsFragment, "stepDetailsFragment")
+                        .add(R.id.stepsFragmentContnainer, recipeDetailsFragment, "recipeDetailsFragment")
                         .commit();
             }
+        } else {
+            stepDetailsFragment = (StepDetailsFragment) getSupportFragmentManager().findFragmentByTag("stepDetailsFragment");
+            recipeDetailsFragment = (RecipeDetailsFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailsFragment");
         }
+
+        stepDetailsFragment.setListener(this);
+        recipeDetailsFragment.setListener(stepDetailsFragment);
     }
 
     @Override

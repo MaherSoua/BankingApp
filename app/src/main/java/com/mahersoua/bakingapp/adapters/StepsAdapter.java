@@ -68,7 +68,6 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> 
     }
 
     public void onPageViewChange(int position){
-        Log.d("StepsAdpater", ""+position);
         selectedPos = position;
         notifyDataSetChanged();
     }
