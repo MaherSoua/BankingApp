@@ -19,6 +19,7 @@ import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.bakingapp.viewmodels.RecipesViewModel;
 import com.mahersoua.user.bakingapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RecipeListFragment extends Fragment {
@@ -44,9 +45,9 @@ public class RecipeListFragment extends Fragment {
 
         RecipesViewModel model = ViewModelProviders.of(this).get(RecipesViewModel.class);
 
-        model.getRecipes().observe(getActivity(), new Observer<List<RecipeModel>>() {
+        model.getRecipes().observe(getActivity(), new Observer<ArrayList<RecipeModel>>() {
             @Override
-            public void onChanged(@Nullable List<RecipeModel> recipeModels) {
+            public void onChanged(@Nullable ArrayList<RecipeModel> recipeModels) {
                 recipeAdapter.updateList(recipeModels);
             }
         });

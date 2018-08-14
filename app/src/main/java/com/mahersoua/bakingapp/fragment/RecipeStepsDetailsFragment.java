@@ -21,6 +21,7 @@ public class RecipeStepsDetailsFragment extends Fragment implements StepDetailsF
 
     private List<RecipeModel> mList;
     private RecipeDetailsFragment recipeDetailsFragment;
+    private StepDetailsFragment stepDetailsFragment;
     private int currentPosition = 0;
 
     public void setData(List<RecipeModel> list, int index){
@@ -38,7 +39,7 @@ public class RecipeStepsDetailsFragment extends Fragment implements StepDetailsF
             currentPosition = savedInstanceState.getInt("selected_recipe");
         }
 
-        StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
+        stepDetailsFragment = new StepDetailsFragment();
         stepDetailsFragment.setStepList(JsonUtils.getStepModel(mList.get(currentPosition).getSteps()));
         stepDetailsFragment.setListener(this);
 
@@ -49,7 +50,7 @@ public class RecipeStepsDetailsFragment extends Fragment implements StepDetailsF
         FragmentManager fragmentManager = ((AppCompatActivity) getContext()).getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .add(R.id.stepsDetailsContainer, stepDetailsFragment)
-                .add(R.id.stepsFragmentCnotnainer, recipeDetailsFragment)
+                .add(R.id.stepsFragmentContnainer, recipeDetailsFragment)
                 .commit();
         return view;
     }

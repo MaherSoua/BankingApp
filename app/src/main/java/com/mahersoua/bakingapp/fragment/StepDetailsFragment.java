@@ -53,8 +53,8 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
             mStepList = savedInstanceState.getParcelableArrayList("step-list");
         }
 
-        View view = inflater.inflate(R.layout.step_details_fragment, container, false);
-        mViewPager = view.findViewById(R.id.pager);
+        View mView = inflater.inflate(R.layout.step_details_fragment, container, false);
+        mViewPager = mView.findViewById(R.id.pager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -78,17 +78,19 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         mPagerAdapter = new StepSlideAdapter(getActivity().getSupportFragmentManager());
         mViewPager.setAdapter(mPagerAdapter);
 
-        nextStep = view.findViewById(R.id.nextStep);
-        previousStep = view.findViewById(R.id.previousStep);
+        nextStep = mView.findViewById(R.id.nextStep);
+        previousStep = mView.findViewById(R.id.previousStep);
         nextStep.setOnClickListener(this);
         previousStep.setOnClickListener(this);
         udpateVisibility();
-        return view;
+
+        return mView;
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
+        mListener = null;
         if(mStepList != null){
             outState.putParcelableArrayList("step-list", mStepList);
         }

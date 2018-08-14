@@ -9,6 +9,7 @@ import com.google.gson.JsonArray;
 import com.mahersoua.bakingapp.interfaces.Api;
 import com.mahersoua.bakingapp.models.RecipeModel;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -18,9 +19,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RecipesViewModel extends ViewModel {
-    private MutableLiveData<List<RecipeModel>> recipeList;
+    private MutableLiveData<ArrayList<RecipeModel>> recipeList;
 
-    public LiveData<List<RecipeModel>> getRecipes(){
+    public LiveData<ArrayList<RecipeModel>> getRecipes(){
         if(recipeList == null){
             loadHeroes();
         }
@@ -36,16 +37,16 @@ public class RecipesViewModel extends ViewModel {
                 .build();
 
         Api api = retrofit.create(Api.class);
-        Call<List<RecipeModel>> call = api.getRecipes();
+        Call<ArrayList<RecipeModel>> call = api.getRecipes();
 
-        call.enqueue(new Callback<List<RecipeModel>>() {
+        call.enqueue(new Callback<ArrayList<RecipeModel>>() {
             @Override
-            public void onResponse(Call<List<RecipeModel>> call, Response<List<RecipeModel>> response) {
+            public void onResponse(Call<ArrayList<RecipeModel>> call, Response<ArrayList<RecipeModel>> response) {
                 recipeList.setValue(response.body());
             }
 
             @Override
-            public void onFailure(Call<List<RecipeModel>> call, Throwable t) {
+            public void onFailure(Call<ArrayList<RecipeModel>> call, Throwable t) {
                 Log.d("RecipeViewModel" , t.getMessage());
             }
         });

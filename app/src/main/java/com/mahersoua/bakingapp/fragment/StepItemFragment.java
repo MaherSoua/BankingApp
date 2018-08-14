@@ -54,16 +54,19 @@ public class StepItemFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        if(savedInstanceState != null){
+        if(mStepModel == null && savedInstanceState != null){
             mStepModel = new StepModel();
             mStepModel.setVideoURL(savedInstanceState.getString("video-url"));
             mStepModel.setThumbnailURL(savedInstanceState.getString("thumbnail-url"));
             mStepModel.setDescription(savedInstanceState.getString("description"));
         }
+
         mView =  inflater.inflate(R.layout.step_item_fragment , container, false);
         TextView descriptionTv = mView.findViewById(R.id.stepDescription);
         descriptionTv.setText(mStepModel.getDescription());
+
         initializePlayer();
+
         return mView;
     }
 
