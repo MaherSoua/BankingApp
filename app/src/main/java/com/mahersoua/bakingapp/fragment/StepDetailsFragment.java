@@ -97,7 +97,6 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mViewPager.setAdapter(null);
         mViewPager = null;
         mPagerAdapter = null;
     }
