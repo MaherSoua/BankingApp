@@ -51,7 +51,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
             mStepList = savedInstanceState.getParcelableArrayList("step-list");
         }
 
-        View mView = inflater.inflate(R.layout.step_details_fragment, container, false);
+        View mView = inflater.inflate(R.layout.fragment_step_details, container, false);
         mViewPager = mView.findViewById(R.id.pager);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

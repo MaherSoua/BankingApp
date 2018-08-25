@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +25,6 @@ import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory;
 import com.google.android.exoplayer2.util.Util;
 import com.mahersoua.bakingapp.models.StepModel;
 import com.mahersoua.user.bakingapp.R;
-
-import java.util.ArrayList;
 
 public class StepItemFragment extends Fragment {
 
@@ -61,7 +58,7 @@ public class StepItemFragment extends Fragment {
             mStepModel.setDescription(savedInstanceState.getString("description"));
         }
         StepModel stepModel = mStepModel;
-        mView =  inflater.inflate(R.layout.step_item_fragment , container, false);
+        mView =  inflater.inflate(R.layout.fragment_step_item, container, false);
         TextView descriptionTv = mView.findViewById(R.id.stepDescription);
         descriptionTv.setText(mStepModel.getDescription());
 

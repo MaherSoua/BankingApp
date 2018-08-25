@@ -15,15 +15,15 @@ import android.view.View;
 
 import com.google.gson.JsonArray;
 import com.mahersoua.bakingapp.adapters.RecipeAdapter;
-import com.mahersoua.bakingapp.fragment.RecipeListFragment;
 import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.bakingapp.viewmodels.RecipesViewModel;
 import com.mahersoua.user.bakingapp.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements RecipeAdapter.IRecipeAdapter{
-
+public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +34,29 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.IRe
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowHomeEnabled(true);
         }
-        if(savedInstanceState == null){
-            RecipeListFragment recipeListFragment = new RecipeListFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.fragmentContainer , recipeListFragment).commit();
+
+        RecyclerView.LayoutManager layoutManager;
+        boolean isTablet = getResources().getBoolean(R.bool.isTablet);
+
+        if(isTablet){
+            layoutManager = new GridLayoutManager(this, 2);
+        } else {
+            layoutManager = new LinearLayoutManager(this);
         }
+
+        final RecipeAdapter recipeAdapter = new RecipeAdapter(this, null);
+        RecyclerView recyclerView = findViewById(R.id.mainList);
+        recyclerView.setAdapter(recipeAdapter);
+        recyclerView.setLayoutManager(layoutManager);
+
+        RecipesViewModel model = ViewModelProviders.of(this).get(RecipesViewModel.class);
+
+        model.getRecipes().observe(this, new Observer<ArrayList<RecipeModel>>() {
+            @Override
+            public void onChanged(@Nullable ArrayList<RecipeModel> recipeModels) {
+                recipeAdapter.updateList(recipeModels);
+            }
+        });
     }
 
     @Override
@@ -47,6 +66,12 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.IRe
             onBackPressed();
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG , "OnDestroy");
     }
 
     private void initActionBarTitle(){
@@ -61,9 +86,5 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.IRe
     public void onBackPressed() {
         initActionBarTitle();
         super.onBackPressed();
-    }
-
-    @Override
-    public void onItemSelected() {
     }
 }

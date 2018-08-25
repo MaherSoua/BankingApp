@@ -1,6 +1,5 @@
 package com.mahersoua.bakingapp.fragment;
 
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -8,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +16,6 @@ import com.mahersoua.bakingapp.adapters.IngredientAdpater;
 import com.mahersoua.bakingapp.adapters.StepsAdapter;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.bakingapp.viewmodels.SelectedRecipeModel;
 import com.mahersoua.user.bakingapp.R;
 
 public class RecipeDetailsFragment extends Fragment {
@@ -55,7 +52,7 @@ public class RecipeDetailsFragment extends Fragment {
             selectedPosition = savedInstanceState.getInt("selected_position");
         }
 
-        View view = inflater.inflate(R.layout.recipe_details_fragment, container, false);
+        View view = inflater.inflate(R.layout.fragment_recipe_details, container, false);
         RecyclerView ingredientRecylerView = view.findViewById(R.id.ingredientsContainer);
         ingredientRecylerView.setLayoutManager(new LinearLayoutManager(getContext()));
         ingredientRecylerView.setAdapter(new IngredientAdpater(getContext(),

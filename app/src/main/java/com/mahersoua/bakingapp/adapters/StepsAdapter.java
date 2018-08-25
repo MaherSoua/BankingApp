@@ -4,14 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.mahersoua.bakingapp.fragment.StepDetailsFragment;
-import com.mahersoua.bakingapp.fragment.StepDetailsFragment.IStepDetails;
 
 import com.mahersoua.bakingapp.models.StepModel;
 import com.mahersoua.user.bakingapp.R;
@@ -35,7 +33,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> 
     @NonNull
     @Override
     public StepHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.step_item_adapter, parent, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_step_item, parent, false);
         return new StepHolder(view);
     }
 
