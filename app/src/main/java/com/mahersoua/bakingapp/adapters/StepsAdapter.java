@@ -89,6 +89,7 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> 
                     } else {
                         StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
                         stepDetailsFragment.setStepList(mList);
+                        stepDetailsFragment.setCurrentPage((int) v.getTag());
                         ((AppCompatActivity )mContext).getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.fragmentContainer, stepDetailsFragment)

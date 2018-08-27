@@ -1,5 +1,7 @@
 package com.mahersoua.bakingapp.fragment;
 
+import android.app.Dialog;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,7 +14,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
+import com.google.android.exoplayer2.Player;
+import com.google.android.exoplayer2.ui.PlayerView;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.StepModel;
 import com.mahersoua.user.bakingapp.R;
@@ -29,13 +34,17 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
     private Button previousStep;
     private int currentIndex = 0;
     private IStepDetails mListener;
+    private View mView;
 
-    public void setStepList(ArrayList<StepModel> stepList){
+    public void setStepList(ArrayList<StepModel> stepList) {
         mStepList = stepList;
-        if(mViewPager != null)
-        {
-            mViewPager.setCurrentItem(0);
+        if (mViewPager != null) {
+            mViewPager.setCurrentItem(currentIndex);
         }
+    }
+
+    public void setCurrentPage(int currentIndex) {
+        this.currentIndex = currentIndex;
     }
 
     @Override
@@ -47,12 +56,13 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        if( mStepList== null && savedInstanceState != null){
+        if (mStepList == null && savedInstanceState != null) {
             mStepList = savedInstanceState.getParcelableArrayList("step-list");
         }
 
-        View mView = inflater.inflate(R.layout.fragment_step_details, container, false);
+        mView = inflater.inflate(R.layout.fragment_step_details, container, false);
         mViewPager = mView.findViewById(R.id.pager);
+        mViewPager.setCurrentItem(currentIndex);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -62,7 +72,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
             @Override
             public void onPageSelected(int position) {
                 currentIndex = position;
-                if(mListener != null) {
+                if (mListener != null) {
                     mListener.onViewChange(position);
                 }
                 udpateButtonState();
@@ -81,15 +91,19 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         nextStep.setOnClickListener(this);
         previousStep.setOnClickListener(this);
         udpateButtonState();
-
+        mViewPager.setCurrentItem(currentIndex);
         return mView;
+    }
+
+    public int getCurrentItem(){
+       return mViewPager.getCurrentItem();
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         mListener = null;
-        if(mStepList != null){
+        if (mStepList != null) {
             outState.putParcelableArrayList("step-list", mStepList);
         }
     }
@@ -104,7 +118,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
     @Override
     public void onClick(View v) {
         currentIndex = mViewPager.getCurrentItem();
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.nextStep:
                 updateOnNext();
                 mViewPager.setCurrentItem(currentIndex);
@@ -118,29 +132,29 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         udpateButtonState();
     }
 
-    private void updateOnNext(){
+    private void updateOnNext() {
         currentIndex++;
-        if(currentIndex > (mStepList.size() - 1)){
+        if (currentIndex > (mStepList.size() - 1)) {
             currentIndex = mStepList.size() - 1;
         }
     }
 
-    private void updateOnPrevious(){
+    private void updateOnPrevious() {
         currentIndex--;
-        if(currentIndex < 0){
+        if (currentIndex < 0) {
             currentIndex = 0;
         }
     }
 
-    private void udpateButtonState(){
+    private void udpateButtonState() {
         nextStep.setEnabled(true);
         previousStep.setEnabled(true);
 
-        if(currentIndex == (mStepList.size() - 1)){
+        if (currentIndex == (mStepList.size() - 1)) {
             nextStep.setEnabled(false);
         }
 
-        if(currentIndex == 0){
+        if (currentIndex == 0) {
             previousStep.setEnabled(false);
         }
     }
@@ -164,7 +178,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         @Override
         public Fragment getItem(int position) {
             StepItemFragment stepItemFragment = new StepItemFragment();
-            stepItemFragment.setStepModel(mStepList.get(position));
+            stepItemFragment.setStepModel(mStepList.get(position), position, mViewPager.getCurrentItem());
             return stepItemFragment;
         }
 

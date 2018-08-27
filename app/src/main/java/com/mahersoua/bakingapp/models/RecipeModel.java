@@ -19,9 +19,11 @@ public class RecipeModel implements Parcelable {
     private ArrayList<StepModel> steps;
     private int servings;
 
+
     protected RecipeModel(Parcel in) {
         id = in.readInt();
         name = in.readString();
+        ingredients = in.createTypedArrayList(IngredientModel.CREATOR);
         steps = in.createTypedArrayList(StepModel.CREATOR);
         servings = in.readInt();
     }
@@ -87,6 +89,7 @@ public class RecipeModel implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(name);
+        dest.writeTypedList(ingredients);
         dest.writeTypedList(steps);
         dest.writeInt(servings);
     }
