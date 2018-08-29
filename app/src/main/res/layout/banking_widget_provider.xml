@@ -6,7 +6,7 @@
 
     <ImageButton
         android:id="@+id/widget_image"
-        android:background="@drawable/ic_launcher_background"
+        android:background="@drawable/recipe_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:contentDescription="TODO" />
