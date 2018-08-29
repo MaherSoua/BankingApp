@@ -7,20 +7,16 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.mahersoua.bakingapp.adapters.IngredientAdpater;
 import com.mahersoua.bakingapp.adapters.StepsAdapter;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.IngredientModel;
 import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.user.bakingapp.R;
-
-import java.util.stream.Collectors;
 
 public class RecipeDetailsFragment extends Fragment {
 
@@ -65,7 +61,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         for(int i = 0; i < mRecipeModel.getIngredients().size(); i++){
             IngredientModel ingredientModel = mRecipeModel.getIngredients().get(i);
-            recipeList.append(ingredientModel.getQuantity() +" "+ingredientModel.getMeasure() + " "+ ingredientModel.getIngredient());
+            recipeList.append(ingredientModel.getQuantity()).append(" ").append(ingredientModel.getMeasure()).append(" ").append(ingredientModel.getIngredient());
             if(i < mRecipeModel.getIngredients().size() - 1){
                 recipeList.append(" / ");
             }
@@ -83,13 +79,7 @@ public class RecipeDetailsFragment extends Fragment {
         mStepsAdapter.onPageViewChange(selectedPosition);
 
         TextView stepListHeader = view.findViewById(R.id.stepsLabel);
-        stepListHeader.setOnClickListener(new View.OnClickListener (){
-
-            @Override
-            public void onClick(View v) {
-                mStepsAdapter.toggle();
-            }
-        });
+        stepListHeader.setOnClickListener(v -> mStepsAdapter.toggle());
         return view;
     }
 

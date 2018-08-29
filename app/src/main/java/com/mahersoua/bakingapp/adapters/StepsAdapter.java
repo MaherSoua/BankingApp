@@ -78,24 +78,20 @@ public class StepsAdapter extends RecyclerView.Adapter<StepsAdapter.StepHolder> 
             mItemView = itemView;
             recipeName = itemView.findViewById(R.id.stepName);
 
-            itemView.setOnClickListener(new View.OnClickListener(){
-
-                @Override
-                public void onClick(View v) {
-                    if(mContext.getResources().getBoolean(R.bool.isTablet)) {
-                        if(mListener != null){
-                            mListener.onItemClicked((int) v.getTag());
-                        }
-                    } else {
-                        StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
-                        stepDetailsFragment.setStepList(mList);
-                        stepDetailsFragment.setCurrentPage((int) v.getTag());
-                        ((AppCompatActivity )mContext).getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.fragmentContainer, stepDetailsFragment)
-                                .addToBackStack("StepDetails")
-                                .commit();
+            itemView.setOnClickListener(v -> {
+                if(mContext.getResources().getBoolean(R.bool.isTablet)) {
+                    if(mListener != null){
+                        mListener.onItemClicked((int) v.getTag());
                     }
+                } else {
+                    StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
+                    stepDetailsFragment.setStepList(mList);
+                    stepDetailsFragment.setCurrentPage((int) v.getTag());
+                    ((AppCompatActivity )mContext).getSupportFragmentManager()
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainer, stepDetailsFragment)
+                            .addToBackStack("StepDetails")
+                            .commit();
                 }
             });
         }

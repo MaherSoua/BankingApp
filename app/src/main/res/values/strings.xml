@@ -1,8 +1,11 @@
 <resources>
     <string name="app_name">Baking App</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="appwidget_text">EXAMPLE</string>
     <string name="add_widget">Add widget</string>
+    <string name="steps_label">Steps</string>
+    <string name="ingredient_label">Ingredient</string>
+    <string name="appwidget_bank_label">App Bank Widget</string>
+    <string name="access_internet_error">Sorry, but your app don\'t have internet access :(</string>
+    <string name="next_step">Next step</string>
+    <string name="previous_step">Previous step</string>
 </resources>

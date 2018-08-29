@@ -1,11 +1,8 @@
 package com.mahersoua.bakingapp.interfaces;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.mahersoua.bakingapp.models.RecipeModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;

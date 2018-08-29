@@ -1,41 +1,27 @@
-package com.mahersoua.bakingapp.fragment;
+package com.mahersoua.bakingapp.adapters;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.exoplayer2.DefaultLoadControl;
 import com.google.android.exoplayer2.DefaultRenderersFactory;
 import com.google.android.exoplayer2.ExoPlaybackException;
 import com.google.android.exoplayer2.ExoPlayerFactory;
-import com.google.android.exoplayer2.PlaybackParameters;
 import com.google.android.exoplayer2.Player;
 import com.google.android.exoplayer2.SimpleExoPlayer;
-import com.google.android.exoplayer2.Timeline;
 import com.google.android.exoplayer2.source.ExtractorMediaSource;
 import com.google.android.exoplayer2.source.MediaSource;
-import com.google.android.exoplayer2.source.TrackGroupArray;
 import com.google.android.exoplayer2.trackselection.DefaultTrackSelector;
-import com.google.android.exoplayer2.trackselection.TrackSelectionArray;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 import com.google.android.exoplayer2.ui.PlayerView;
 import com.google.android.exoplayer2.upstream.DataSource;
@@ -46,13 +32,12 @@ import com.mahersoua.bakingapp.models.StepModel;
 import com.mahersoua.user.bakingapp.R;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StepItemPage extends PagerAdapter {
+public class StepItemPagerAdapter extends PagerAdapter {
 
-    private static final String TAG = "StepItemPage";
+    private static final String TAG = "StepItemPagerAdapter";
     private long currentPositionPlayer;
     private int currentWindowIndex;
     private boolean playWhenReady;
@@ -63,7 +48,7 @@ public class StepItemPage extends PagerAdapter {
     private boolean isUpdateDone;
     private Map<Integer, SimpleExoPlayer> mPlayerConfig = new HashMap<>();
 
-    public StepItemPage(Context context, List<StepModel> list) {
+    public StepItemPagerAdapter(Context context, List<StepModel> list) {
         mContext = context;
         mList = list;
     }
@@ -78,7 +63,6 @@ public class StepItemPage extends PagerAdapter {
             @Override
             public void onPlayerError(ExoPlaybackException error) {
                 super.onPlayerError(error);
-                Toast.makeText(mContext, "An error has occured "+error.getMessage(), Toast.LENGTH_SHORT).show();
                 imageView.setVisibility(View.VISIBLE);
                 isPlayerError = true;
             }
@@ -94,7 +78,6 @@ public class StepItemPage extends PagerAdapter {
                         playerView.setVisibility(View.VISIBLE);
                         imageView.setVisibility(View.INVISIBLE);
                     }
-                    Toast.makeText(mContext, "Player is ready ", Toast.LENGTH_SHORT).show();
                 }
             }
         };
@@ -105,7 +88,7 @@ public class StepItemPage extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = LayoutInflater.from(mContext);
 
-        View view = inflater.inflate(R.layout.fragment_step_item, container, false);
+        View view = inflater.inflate(R.layout.adapater_page_step_item, container, false);
         TextView descriptionTv = view.findViewById(R.id.stepDescription);
         descriptionTv.setText(mList.get(position).getDescription());
         initFullscreenDialog(view);

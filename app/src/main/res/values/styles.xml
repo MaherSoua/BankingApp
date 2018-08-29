@@ -1,11 +1,25 @@
 <resources>
-
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="RecipeTitle" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#0089d2</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="FragmentTitle" parent="RecipeTitle">
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
+    </style>
+
+    <style name="NavButton" parent="TextAppearance.AppCompat">
+        <item name="android:textColor">#ffffff</item>
+        <item name="android:background">@drawable/nav_button_state_style</item>
     </style>
 
 </resources>

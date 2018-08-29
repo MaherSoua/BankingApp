@@ -27,9 +27,10 @@
     <ImageView
         android:id="@+id/noVideoImage"
         android:layout_width="match_parent"
-        android:layout_height="295dp"
-        android:background="@drawable/ic_broken_image_black_24dp"
-        android:scaleType="centerCrop"/>
+        android:layout_height="284dp"
+        android:src="@drawable/ic_broken_image_black_24dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="TODO" />
     <TextView
         android:id="@+id/stepDescription"
         android:layout_width="match_parent"

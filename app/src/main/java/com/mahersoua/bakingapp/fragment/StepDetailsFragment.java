@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.mahersoua.bakingapp.adapters.StepItemPagerAdapter;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.StepModel;
 import com.mahersoua.user.bakingapp.R;
@@ -76,7 +77,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
 
             }
         });
-        mPagerAdapter = new StepItemPage(getContext(), mStepList);
+        mPagerAdapter = new StepItemPagerAdapter(getContext(), mStepList);
         mViewPager.setAdapter(mPagerAdapter);
 
         nextStep = mView.findViewById(R.id.nextStep);

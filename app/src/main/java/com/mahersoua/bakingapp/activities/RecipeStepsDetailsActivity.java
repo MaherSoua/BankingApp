@@ -1,8 +1,7 @@
 package com.mahersoua.bakingapp.activities;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.user.bakingapp.R;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class RecipeStepsDetailsActivity extends AppCompatActivity implements StepDetailsFragment.IStepDetails {
 
@@ -25,6 +23,10 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity implements Ste
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_steps_details);
+
+        if(getResources().getBoolean(R.bool.landscape_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        }
 
         Intent intent = getIntent();
         if(intent != null && savedInstanceState == null){

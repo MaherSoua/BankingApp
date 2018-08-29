@@ -8,7 +8,8 @@
         android:id="@+id/widget_image"
         android:background="@drawable/ic_launcher_background"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:contentDescription="TODO" />
 
     <TextView
         android:id="@+id/appwidget_text"
@@ -18,8 +19,8 @@
         android:layout_centerVertical="true"
         android:layout_margin="8dp"
         android:background="#09C"
-        android:contentDescription="@string/appwidget_text"
-        android:text="@string/appwidget_text"
+        android:contentDescription="@string/appwidget_bank_label"
+        android:text="@string/appwidget_bank_label"
         android:textColor="#ffffff"
         android:textSize="24sp"
         android:textStyle="bold|italic" />

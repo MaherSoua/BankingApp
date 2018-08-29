@@ -5,12 +5,10 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 import android.util.Log;
 
-import com.google.gson.JsonArray;
 import com.mahersoua.bakingapp.interfaces.Api;
 import com.mahersoua.bakingapp.models.RecipeModel;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;

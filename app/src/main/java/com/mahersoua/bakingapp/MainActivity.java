@@ -1,8 +1,10 @@
 package com.mahersoua.bakingapp;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.support.annotation.Nullable;
+import android.content.Context;
+import android.content.pm.ActivityInfo;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,14 +15,9 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.google.gson.JsonArray;
 import com.mahersoua.bakingapp.adapters.RecipeAdapter;
-import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.bakingapp.viewmodels.RecipesViewModel;
 import com.mahersoua.user.bakingapp.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -28,6 +25,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if(hasNoInternetAccess()){
+            findViewById(R.id.connectionErrorTv).setVisibility(View.VISIBLE);
+            return;
+        } else {
+            findViewById(R.id.connectionErrorTv).setVisibility(View.INVISIBLE);
+        }
+        if(getResources().getBoolean(R.bool.landscape_only)) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
+        }
+
 
         ActionBar actionBar = getSupportActionBar();
         if(actionBar != null){
@@ -44,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
             layoutManager = new LinearLayoutManager(this);
         }
 
+
         final RecipeAdapter recipeAdapter = new RecipeAdapter(this, null);
         RecyclerView recyclerView = findViewById(R.id.mainList);
         recyclerView.setAdapter(recipeAdapter);
@@ -51,12 +60,16 @@ public class MainActivity extends AppCompatActivity {
 
         RecipesViewModel model = ViewModelProviders.of(this).get(RecipesViewModel.class);
 
-        model.getRecipes().observe(this, new Observer<ArrayList<RecipeModel>>() {
-            @Override
-            public void onChanged(@Nullable ArrayList<RecipeModel> recipeModels) {
-                recipeAdapter.updateList(recipeModels);
-            }
-        });
+        model.getRecipes().observe(this, recipeAdapter::updateList);
+    }
+
+    private boolean hasNoInternetAccess() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (null != connectivityManager) {
+            NetworkInfo info = connectivityManager.getActiveNetworkInfo();
+            return null == info || !info.isConnectedOrConnecting();
+        }
+        return false;
     }
 
     @Override

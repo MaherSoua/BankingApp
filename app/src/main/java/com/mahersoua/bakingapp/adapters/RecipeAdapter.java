@@ -17,6 +17,7 @@ import com.mahersoua.bakingapp.activities.RecipeStepsDetailsActivity;
 import com.mahersoua.bakingapp.fragment.RecipeDetailsFragment;
 import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.user.bakingapp.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +43,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
     public void onBindViewHolder(@NonNull RecipeHolder holder, int position) {
         if (mList == null) return;
         holder.titleTv.setText(mList.get(position).getName());
-        holder.recipeVideoBtn.setTag(position);
+        holder.recipeImageBtn.setTag(position);
+        Picasso.get().load(mList.get(position).getName()).error(R.drawable.ic_broken_image_black_24dp).into(holder.recipeImageBtn);
     }
 
     public void updateList(List<RecipeModel> list) {
@@ -58,35 +60,31 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
         return 0;
     }
 
-    public class RecipeHolder extends RecyclerView.ViewHolder {
+    class RecipeHolder extends RecyclerView.ViewHolder {
         private TextView titleTv;
         private View itemView;
-        private ImageButton recipeVideoBtn;
+        private ImageButton recipeImageBtn;
 
-        public RecipeHolder(View itemView) {
+        private RecipeHolder(View itemView) {
             super(itemView);
             this.itemView = itemView;
             titleTv = itemView.findViewById(R.id.titleTv);
-            recipeVideoBtn = itemView.findViewById(R.id.recipeVideoBtn);
-            recipeVideoBtn.setOnClickListener(new View.OnClickListener() {
+            recipeImageBtn = itemView.findViewById(R.id.recipeVideoBtn);
+            recipeImageBtn.setOnClickListener(v -> {
+                if (v.getId() == R.id.recipeVideoBtn) {
+                    FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    if (mContext.getResources().getBoolean(R.bool.isTablet)) {
+                       Intent intent = new Intent(mContext, RecipeStepsDetailsActivity.class);
+                       intent.putParcelableArrayListExtra("recipe_list",(ArrayList<RecipeModel>) mList);
+                       mContext.startActivity(intent);
+                    } else {
+                        RecipeDetailsFragment recipeDetailsFragment = new RecipeDetailsFragment();
+                        recipeDetailsFragment.setRecipeInfo(mList.get((int) v.getTag()), mContext);
 
-                @Override
-                public void onClick(View v) {
-                    if (v.getId() == R.id.recipeVideoBtn) {
-                        FragmentManager fragmentManager = ((AppCompatActivity) mContext).getSupportFragmentManager();
-                        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                        if (mContext.getResources().getBoolean(R.bool.isTablet)) {
-                           Intent intent = new Intent(mContext, RecipeStepsDetailsActivity.class);
-                           intent.putParcelableArrayListExtra("recipe_list",(ArrayList<RecipeModel>) mList);
-                           mContext.startActivity(intent);
-                        } else {
-                            RecipeDetailsFragment recipeDetailsFragment = new RecipeDetailsFragment();
-                            recipeDetailsFragment.setRecipeInfo(mList.get((int) v.getTag()), mContext);
-
-                            fragmentTransaction.replace(R.id.fragmentContainer, recipeDetailsFragment)
-                                    .addToBackStack("Details")
-                                    .commit();
-                        }
+                        fragmentTransaction.replace(R.id.fragmentContainer, recipeDetailsFragment)
+                                .addToBackStack("Details")
+                                .commit();
                     }
                 }
             });
