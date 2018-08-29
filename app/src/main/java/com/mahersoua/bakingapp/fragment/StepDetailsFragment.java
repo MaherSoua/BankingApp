@@ -1,23 +1,16 @@
 package com.mahersoua.bakingapp.fragment;
 
-import android.app.Dialog;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
-import com.google.android.exoplayer2.Player;
-import com.google.android.exoplayer2.ui.PlayerView;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.StepModel;
 import com.mahersoua.user.bakingapp.R;
@@ -83,7 +76,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
 
             }
         });
-        mPagerAdapter = new StepSlideAdapter(getActivity().getSupportFragmentManager());
+        mPagerAdapter = new StepItemPage(getContext(), mStepList);
         mViewPager.setAdapter(mPagerAdapter);
 
         nextStep = mView.findViewById(R.id.nextStep);
@@ -93,10 +86,6 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         udpateButtonState();
         mViewPager.setCurrentItem(currentIndex);
         return mView;
-    }
-
-    public int getCurrentItem(){
-       return mViewPager.getCurrentItem();
     }
 
     @Override
@@ -167,25 +156,6 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
     public void onItemClicked(int index) {
         currentIndex = index;
         mViewPager.setCurrentItem(index);
-    }
-
-    private class StepSlideAdapter extends FragmentStatePagerAdapter {
-
-        public StepSlideAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            StepItemFragment stepItemFragment = new StepItemFragment();
-            stepItemFragment.setStepModel(mStepList.get(position), position, mViewPager.getCurrentItem());
-            return stepItemFragment;
-        }
-
-        @Override
-        public int getCount() {
-            return mStepList.size();
-        }
     }
 
     public interface IStepDetails {

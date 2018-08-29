@@ -20,9 +20,16 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:resize_mode="fill"
             android:maxHeight="280dp"/>
     </FrameLayout>
 
+    <ImageView
+        android:id="@+id/noVideoImage"
+        android:layout_width="match_parent"
+        android:layout_height="295dp"
+        android:background="@drawable/ic_broken_image_black_24dp"
+        android:scaleType="centerCrop"/>
     <TextView
         android:id="@+id/stepDescription"
         android:layout_width="match_parent"
