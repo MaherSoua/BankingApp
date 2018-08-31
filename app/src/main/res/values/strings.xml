@@ -8,4 +8,7 @@
     <string name="access_internet_error">Sorry, but your app don\'t have internet access :(</string>
     <string name="next_step">Next step</string>
     <string name="previous_step">Previous step</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
