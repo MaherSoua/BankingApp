@@ -11,7 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 import java.util.ArrayList;
 import java.util.List;

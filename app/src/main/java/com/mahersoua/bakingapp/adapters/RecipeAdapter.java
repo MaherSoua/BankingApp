@@ -16,7 +16,7 @@ import android.widget.TextView;
 import com.mahersoua.bakingapp.activities.RecipeStepsDetailsActivity;
 import com.mahersoua.bakingapp.fragment.RecipeDetailsFragment;
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;

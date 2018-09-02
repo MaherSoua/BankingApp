@@ -23,7 +23,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.mahersoua.bakingapp.dataproviders.DataProvider;
 import com.mahersoua.bakingapp.fragment.StepItemFragment;
 import com.mahersoua.bakingapp.models.StepModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 public class FullScreenVideoActivity extends AppCompatActivity {
     private static final String TAG = "FullScreenVideoActivity";

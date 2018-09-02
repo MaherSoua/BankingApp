@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.mahersoua.bakingapp.fragment.RecipeDetailsFragment;
 import com.mahersoua.bakingapp.fragment.StepDetailsFragment;
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 import java.util.ArrayList;
 

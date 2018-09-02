@@ -1,7 +1,12 @@
 package com.mahersoua.bakingapp.fragment;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
+import android.content.Intent;
 import android.database.DataSetObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,12 +18,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RemoteViews;
 
+import com.mahersoua.bakingapp.BankingWidgetProvider;
+import com.mahersoua.bakingapp.GridWidgetService;
 import com.mahersoua.bakingapp.adapters.StepItemPagerAdapter;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.dataproviders.DataProvider;
 import com.mahersoua.bakingapp.models.StepModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -116,6 +124,20 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         if (mListener != null) {
             mListener.onViewChange(currentIndex);
         }
+
+        Bundle extras = new Bundle();
+        extras.putString("step-name", "Name");
+        Intent intent = new Intent(getContext(), GridWidgetService.class);
+//        intent.putParcelableArrayListExtra("step-list", mStepList);
+        intent.setData(Uri.parse(intent.toUri(Intent.URI_INTENT_SCHEME)));
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(getContext());
+        RemoteViews remoteViews = new RemoteViews(getContext().getPackageName(), R.layout.banking_widget_provider);
+        ComponentName appWidget = new ComponentName(getContext(), BankingWidgetProvider.class);
+        remoteViews.setRemoteAdapter(R.id.widget_grid_view, intent);
+        appWidgetManager.updateAppWidget(appWidget, remoteViews);
+
         udpateButtonState();
     }
 

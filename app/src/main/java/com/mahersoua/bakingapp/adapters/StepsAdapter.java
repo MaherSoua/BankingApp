@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.mahersoua.bakingapp.fragment.StepDetailsFragment;
 
 import com.mahersoua.bakingapp.models.StepModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 import java.util.ArrayList;
 

@@ -17,7 +17,7 @@ import android.view.View;
 
 import com.mahersoua.bakingapp.adapters.RecipeAdapter;
 import com.mahersoua.bakingapp.viewmodels.RecipesViewModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";

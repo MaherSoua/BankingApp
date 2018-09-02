@@ -39,7 +39,7 @@ import com.google.android.exoplayer2.util.Util;
 import com.mahersoua.bakingapp.activities.FullScreenVideoActivity;
 import com.mahersoua.bakingapp.dataproviders.DataProvider;
 import com.mahersoua.bakingapp.models.StepModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 import java.util.Observable;
 import java.util.Observer;

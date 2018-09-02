@@ -16,7 +16,7 @@ import com.mahersoua.bakingapp.adapters.StepsAdapter;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.models.IngredientModel;
 import com.mahersoua.bakingapp.models.RecipeModel;
-import com.mahersoua.user.bakingapp.R;
+import com.mahersoua.bakingapp.R;
 
 public class RecipeDetailsFragment extends Fragment {
 
