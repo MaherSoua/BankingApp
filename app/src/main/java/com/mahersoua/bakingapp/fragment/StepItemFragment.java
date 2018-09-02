@@ -136,6 +136,38 @@ public class StepItemFragment extends Fragment {
         releasePlayer();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mPlayer != null) {
+            mPlayer.setPlayWhenReady(true);
+        }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if(mPlayer != null) {
+            mPlayer.setPlayWhenReady(true);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mPlayer != null) {
+            mPlayer.setPlayWhenReady(false);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(mPlayer != null) {
+            mPlayer.setPlayWhenReady(false);
+        }
+    }
+
     private void initListner() {
         if (mPlayerListener == null) {
             mPlayerListener = new SimpleExoPlayer.DefaultEventListener() {

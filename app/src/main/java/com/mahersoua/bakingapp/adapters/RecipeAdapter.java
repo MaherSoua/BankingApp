@@ -1,7 +1,11 @@
 package com.mahersoua.bakingapp.adapters;
 
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -11,12 +15,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import com.mahersoua.bakingapp.activities.RecipeStepsDetailsActivity;
 import com.mahersoua.bakingapp.fragment.RecipeDetailsFragment;
 import com.mahersoua.bakingapp.models.RecipeModel;
 import com.mahersoua.bakingapp.R;
+import com.mahersoua.bakingapp.models.StepModel;
+import com.mahersoua.bakingapp.utils.StringUtils;
+import com.mahersoua.bakingapp.widget.BankingWidgetProvider;
+import com.mahersoua.bakingapp.widget.GridWidgetService;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -86,6 +95,19 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
                                 .addToBackStack("Details")
                                 .commit();
                     }
+
+                    List<StepModel> stepsModel = mList.get((int) v.getTag()).getSteps();
+                    String[] stepList = new String[stepsModel.size()];
+                    for(int i = 0; i <stepsModel.size() ; i++) {
+                        stepList[i] = stepsModel.get(i).getShortDescription().trim();
+                    }
+
+                    SharedPreferences.Editor editor = mContext
+                            .getSharedPreferences(RecipeStepsDetailsActivity.APP_PREF, Context.MODE_PRIVATE).edit();
+                    editor.putString("step-list", StringUtils.join(StringUtils.DELIMETER , stepList));
+                    editor.commit();
+
+                    BankingWidgetProvider.updateWidgetGridView(stepList, mContext);
                 }
             });
         }

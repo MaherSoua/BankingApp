@@ -1,34 +1,33 @@
-package com.mahersoua.bakingapp;
+package com.mahersoua.bakingapp.widget;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.Nullable;
+import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
 import com.mahersoua.bakingapp.R;
-import com.mahersoua.bakingapp.models.StepModel;
-
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import com.mahersoua.bakingapp.activities.RecipeStepsDetailsActivity;
+import com.mahersoua.bakingapp.utils.StringUtils;
 
 public class GridWidgetService extends RemoteViewsService {
 
     @Override
     public RemoteViewsFactory onGetViewFactory(Intent intent) {
-//        String stepModel = intent.getExtras().getString("step-name");
-
         return new GridRemoteViewsFactory(getApplicationContext(), intent);
     }
 }
 
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     Context mContext;
+    Intent mIntent;
+    String[] stepList;
 
     public GridRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
+        mIntent = intent;
+        stepList = intent.getStringArrayExtra("step-name");
     }
 
     @Override
@@ -38,7 +37,10 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDataSetChanged() {
-
+        SharedPreferences editor = mContext
+                .getSharedPreferences(RecipeStepsDetailsActivity.APP_PREF, Context.MODE_PRIVATE);
+        String savedData = editor.getString("step-list", "");
+        stepList =savedData.split(StringUtils.DELIMETER);
     }
 
     @Override
@@ -48,13 +50,19 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getCount() {
-        return 10;
+        return stepList.length;
     }
 
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_gridview_item);
-        remoteViews.setTextViewText(R.id.widget_step_recipe_tv, "test " + position);
+        remoteViews.setTextViewText(R.id.widget_step_recipe_tv, position+" - "+ stepList[position]);
+
+        Bundle extras = new Bundle();
+        extras.putInt("step-id", position);
+        Intent fillinIntent = new Intent();
+        fillinIntent.putExtras(extras);
+        remoteViews.setOnClickFillInIntent(R.id.widget_step_recipe_tv, fillinIntent);
         return remoteViews;
     }
 
@@ -65,7 +73,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public int getViewTypeCount() {
-        return 2;
+        return 1;
     }
 
     @Override

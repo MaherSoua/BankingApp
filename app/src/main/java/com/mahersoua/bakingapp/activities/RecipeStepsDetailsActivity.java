@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.mahersoua.bakingapp.fragment.RecipeDetailsFragment;
 import com.mahersoua.bakingapp.fragment.StepDetailsFragment;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 public class RecipeStepsDetailsActivity extends AppCompatActivity implements StepDetailsFragment.IStepDetails {
 
+    public static final String APP_PREF = "recipe-app-preference";
     private RecipeDetailsFragment recipeDetailsFragment;
     private StepDetailsFragment stepDetailsFragment;
     private int currentPosition = 0;
@@ -23,7 +25,7 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity implements Ste
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_steps_details);
-
+        Log.d("RecipeStepsDetails", "RecipeStepsDetailsActivity");
         if(getResources().getBoolean(R.bool.landscape_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         }
