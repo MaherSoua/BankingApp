@@ -42,15 +42,11 @@ public class BankingWidgetProvider extends AppWidgetProvider {
         int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(thisWidget);
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
 
-        Intent appIntent = new Intent(context, RecipeStepsDetailsActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        remoteViews.setPendingIntentTemplate(R.id.widget_grid_view, pendingIntent);
 
 
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-        context.startService(intent);
         appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, R.id.widget_grid_view);
     }
 
@@ -61,11 +57,11 @@ public class BankingWidgetProvider extends AppWidgetProvider {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
         RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getRemoteViews());
-
-        Intent intent = new Intent(context, GridWidgetService.class);
-        remoteViews.setRemoteAdapter(R.id.widget_grid_view, intent);
-        appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetIds, getRemoteViews());
-
+        Intent appIntent = new Intent(context, MainActivity.class);
+        PendingIntent pendingIntent = PendingIntent
+                .getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteViews.setPendingIntentTemplate(R.id.widget_grid_view, pendingIntent);
+        appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)

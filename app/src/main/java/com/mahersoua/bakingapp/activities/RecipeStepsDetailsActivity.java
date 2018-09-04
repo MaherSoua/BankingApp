@@ -25,7 +25,6 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity implements Ste
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_steps_details);
-        Log.d("RecipeStepsDetails", "RecipeStepsDetailsActivity");
         if(getResources().getBoolean(R.bool.landscape_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         }
@@ -54,8 +53,11 @@ public class RecipeStepsDetailsActivity extends AppCompatActivity implements Ste
             recipeDetailsFragment = (RecipeDetailsFragment) getSupportFragmentManager().findFragmentByTag("recipeDetailsFragment");
         }
 
-        stepDetailsFragment.setListener(this);
-        recipeDetailsFragment.setListener(stepDetailsFragment);
+        if(stepDetailsFragment != null){
+            stepDetailsFragment.setListener(this);
+            recipeDetailsFragment.setListener(stepDetailsFragment);
+        }
+
     }
 
     @Override

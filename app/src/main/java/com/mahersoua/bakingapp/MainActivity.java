@@ -1,7 +1,9 @@
 package com.mahersoua.bakingapp;
 
+import android.app.IntentService;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -26,6 +28,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        int stepId = 0;
+        if(intent.getExtras() != null) {
+            stepId = intent.getExtras().getInt("step-id", 0);
+        }
         if(hasNoInternetAccess()){
             findViewById(R.id.connectionErrorTv).setVisibility(View.VISIBLE);
             return;
