@@ -96,7 +96,8 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
                                 .commit();
                     }
 
-                    List<StepModel> stepsModel = mList.get((int) v.getTag()).getSteps();
+                    int selectedRecipe = (int) v.getTag();
+                    List<StepModel> stepsModel = mList.get(selectedRecipe).getSteps();
                     String[] stepList = new String[stepsModel.size()];
                     for(int i = 0; i <stepsModel.size() ; i++) {
                         stepList[i] = stepsModel.get(i).getShortDescription().trim();
@@ -105,6 +106,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeHold
                     SharedPreferences.Editor editor = mContext
                             .getSharedPreferences(RecipeStepsDetailsActivity.APP_PREF, Context.MODE_PRIVATE).edit();
                     editor.putString("step-list", StringUtils.join(StringUtils.DELIMETER , stepList));
+                    editor.putInt("selected-recipe", selectedRecipe);
                     editor.commit();
 
                     BankingWidgetProvider.updateWidgetGridView(stepList, mContext);

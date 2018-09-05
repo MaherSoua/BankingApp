@@ -25,7 +25,7 @@ public class BankingWidgetProvider extends AppWidgetProvider {
 
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getRemoteViews());
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.banking_widget_provider);
         // Instruct the widget manager to update the widget
         appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
     }
@@ -36,7 +36,7 @@ public class BankingWidgetProvider extends AppWidgetProvider {
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED);
 
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getRemoteViews());
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.banking_widget_provider);
         remoteViews.setRemoteAdapter(R.id.widget_grid_view, intent);
         ComponentName thisWidget = new ComponentName(context, BankingWidgetProvider.class);
         int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(thisWidget);
@@ -56,31 +56,12 @@ public class BankingWidgetProvider extends AppWidgetProvider {
         for (int appWidgetId : appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getRemoteViews());
+        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), R.layout.banking_widget_provider);
         Intent appIntent = new Intent(context, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent
                 .getActivity(context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteViews.setPendingIntentTemplate(R.id.widget_grid_view, pendingIntent);
         appWidgetManager.updateAppWidget(appWidgetIds, remoteViews);
-    }
-
-    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
-    @Override
-    public void onAppWidgetOptionsChanged(Context context, AppWidgetManager appWidgetManager, int appWidgetId, Bundle newOptions) {
-        // Obtain appropriate widget and update it.
-        RemoteViews remoteViews = new RemoteViews(context.getPackageName(), getRemoteViews());
-        appWidgetManager.updateAppWidget(appWidgetId, remoteViews);
-        super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
-    }
-
-    private static int getRemoteViews() {
-        int columns = getCellsForSize(300);
-
-        switch (columns) {
-            case 1:  return R.layout.banking_widget_provider_small;
-            case 2:  return R.layout.banking_widget_provider;
-            default: return R.layout.banking_widget_provider_small;
-        }
     }
 
     private static int getCellsForSize(int size) {
@@ -90,6 +71,7 @@ public class BankingWidgetProvider extends AppWidgetProvider {
         }
         return n - 1;
     }
+
     @Override
     public void onEnabled(Context context) {
         // Enter relevant functionality for when the first widget is created
@@ -98,6 +80,11 @@ public class BankingWidgetProvider extends AppWidgetProvider {
     @Override
     public void onDisabled(Context context) {
         // Enter relevant functionality for when the last widget is disabled
+    }
+
+    @Override
+    public void onRestored(Context context, int[] oldWidgetIds, int[] newWidgetIds) {
+        super.onRestored(context, oldWidgetIds, newWidgetIds);
     }
 }
 

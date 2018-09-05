@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -23,6 +24,7 @@ public class GridWidgetService extends RemoteViewsService {
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     Context mContext;
     Intent mIntent;
+    int mSelectedRecipe;
     String[] stepList;
 
     public GridRemoteViewsFactory(Context context, Intent intent) {
@@ -33,7 +35,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onCreate() {
-
+        Log.d("GridWidgetService", "///");
     }
 
     @Override
@@ -41,7 +43,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         SharedPreferences editor = mContext
                 .getSharedPreferences(RecipeStepsDetailsActivity.APP_PREF, Context.MODE_PRIVATE);
         String savedData = editor.getString("step-list", "");
-        stepList =savedData.split(StringUtils.DELIMETER);
+        mSelectedRecipe = editor.getInt("selected-recipe", 0);
+        stepList = savedData.split(StringUtils.DELIMETER);
     }
 
     @Override
@@ -62,6 +65,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         Intent fillinIntent = new Intent();
         fillinIntent.setData(Uri.parse(fillinIntent.toUri(Intent.URI_INTENT_SCHEME)));
         fillinIntent.putExtra("step-id", position);
+        fillinIntent.putExtra("selected-recipe", mSelectedRecipe);
 
         remoteViews.setOnClickFillInIntent(R.id.widget_step_recipe_tv, fillinIntent);
         return remoteViews;
