@@ -32,4 +32,6 @@ ext {
     retrofitVersion = '2.4.0'
     exoPlayerVersion = '2.8.2'
     constraintLayoutVersion = '1.1.2'
+    espressoVersion = '3.0.2'
+    testUtils = '1.0.2'
 }
