@@ -18,7 +18,7 @@ public class IngredientAdpater extends RecyclerView.Adapter<IngredientAdpater.In
     private Context mContext;
     private ArrayList<IngredientModel> mList;
 
-    public IngredientAdpater(Context context, ArrayList<IngredientModel> list){
+    public IngredientAdpater(Context context, ArrayList<IngredientModel> list) {
         mContext = context;
         mList = list;
     }
@@ -33,14 +33,14 @@ public class IngredientAdpater extends RecyclerView.Adapter<IngredientAdpater.In
     @Override
     public void onBindViewHolder(@NonNull IngredientViewHolder holder, int position) {
         IngredientModel ingredientModel = mList.get(position);
-        String ingredient =  ingredientModel.getIngredient() +" "+
-                ingredientModel.getQuantity() +" "+ingredientModel.getMeasure();
+        String ingredient = ingredientModel.getIngredient() + " " +
+                ingredientModel.getQuantity() + " " + ingredientModel.getMeasure();
         holder.ingredientTv.setText(ingredient);
     }
 
     @Override
     public int getItemCount() {
-        if(mList != null){
+        if (mList != null) {
             return mList.size();
         }
         return 0;
@@ -48,6 +48,7 @@ public class IngredientAdpater extends RecyclerView.Adapter<IngredientAdpater.In
 
     public class IngredientViewHolder extends RecyclerView.ViewHolder {
         TextView ingredientTv;
+
         public IngredientViewHolder(View itemView) {
             super(itemView);
             ingredientTv = itemView.findViewById(R.id.ingredientTv);

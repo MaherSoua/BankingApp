@@ -6,11 +6,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.test.espresso.IdlingResource;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -83,23 +83,23 @@ public class MainActivity extends AppCompatActivity {
 
         int finalStepId = stepId;
         int finalRecipeId = recipeId;
-        if(mIdlingResource != null) {
+        if (mIdlingResource != null) {
             mIdlingResource.setIdleState(false);
         }
         model.getRecipes().observe(this, list -> {
             recipeAdapter.updateList(list);
             MainActivity.this.mList = list;
 
-            if(finalStepId != -1 ) {
+            if (finalStepId != -1) {
                 displayRecipeStep(finalRecipeId);
             }
 
-            if(mIdlingResource != null) {
+            if (mIdlingResource != null) {
                 mIdlingResource.setIdleState(true);
             }
         });
 
-        if(mList != null) {
+        if (mList != null) {
             displayRecipeStep(finalRecipeId);
         }
     }

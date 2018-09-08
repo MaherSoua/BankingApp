@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cardview_light_background"
-    tools:context=".activities.FullScreenVideo">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.exoplayer2.ui.PlayerView
         android:id="@+id/video_view"
@@ -15,5 +12,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:resize_mode="fill"/>
+
+    <ImageView
+        android:id="@+id/noVideoImage"
+        android:layout_width="match_parent"
+        android:layout_height="284dp"
+        android:src="@drawable/ic_broken_image_black_24dp"
+        android:scaleType="fitCenter"
+        android:contentDescription="TODO" />
 
 </android.support.constraint.ConstraintLayout>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
 import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
@@ -60,7 +59,7 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
     @Override
     public RemoteViews getViewAt(int position) {
         RemoteViews remoteViews = new RemoteViews(mContext.getPackageName(), R.layout.widget_gridview_item);
-        remoteViews.setTextViewText(R.id.widget_step_recipe_tv, position+" - "+ stepList[position]);
+        remoteViews.setTextViewText(R.id.widget_step_recipe_tv, position + " - " + stepList[position]);
 
         Intent fillinIntent = new Intent();
         fillinIntent.setData(Uri.parse(fillinIntent.toUri(Intent.URI_INTENT_SCHEME)));

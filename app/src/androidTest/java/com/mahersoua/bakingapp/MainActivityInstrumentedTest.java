@@ -2,12 +2,17 @@ package com.mahersoua.bakingapp;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.espresso.Espresso;
 import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.mahersoua.bakingapp.adapters.RecipeAdapter;
+
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeMatcher;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -18,6 +23,9 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+
+import org.hamcrest.Description;
+
 import static org.junit.Assert.*;
 
 /**
@@ -30,7 +38,7 @@ public class MainActivityInstrumentedTest {
     public static final String MAIN_ERROR_MESSAGE = "Green Tea";
     private IdlingResource mIdlingResource;
     @Rule
-    public ActivityTestRule< MainActivity> mActivityTestRule =
+    public ActivityTestRule<MainActivity> mActivityTestRule =
             new ActivityTestRule(MainActivity.class);
 
     @Before
@@ -60,5 +68,25 @@ public class MainActivityInstrumentedTest {
     @Test
     public void checkArrayLength() {
         assertTrue(mActivityTestRule.getActivity().getList().size() > 0);
+    }
+
+    @Test
+    public void selectedItemFromAdapter() {
+        onView(ViewMatchers.withId(R.id.mainList))
+                .perform(RecyclerViewActions.scrollToPosition(0));
+    }
+
+    private static Matcher<RecipeAdapter.RecipeHolder> isInTheMiddle() {
+        return new TypeSafeMatcher<RecipeAdapter.RecipeHolder>() {
+            @Override
+            protected boolean matchesSafely(RecipeAdapter.RecipeHolder customHolder) {
+                return true;
+            }
+
+            @Override
+            public void describeTo(Description description) {
+                description.appendText("item in the middle");
+            }
+        };
     }
 }

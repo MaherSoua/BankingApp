@@ -1,9 +1,5 @@
 package com.mahersoua.bakingapp.fragment;
 
-import android.appwidget.AppWidgetManager;
-import android.content.ComponentName;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -16,10 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RemoteViews;
 
-import com.mahersoua.bakingapp.widget.BankingWidgetProvider;
-import com.mahersoua.bakingapp.widget.GridWidgetService;
 import com.mahersoua.bakingapp.adapters.StepsAdapter.IStepAdapter;
 import com.mahersoua.bakingapp.dataproviders.DataProvider;
 import com.mahersoua.bakingapp.models.StepModel;
@@ -37,7 +30,6 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
     private Button previousStep;
     private int currentIndex = 0;
     private IStepDetails mListener;
-    private View mView;
 
     public void setStepList(ArrayList<StepModel> stepList) {
         mStepList = stepList;
@@ -64,7 +56,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
             currentIndex = savedInstanceState.getInt("current-index");
         }
 
-        mView = inflater.inflate(R.layout.fragment_step_details, container, false);
+        View mView = inflater.inflate(R.layout.fragment_step_details, container, false);
         mViewPager = mView.findViewById(R.id.pager);
 
         mPagerAdapter = new StepSlideAdapter(getChildFragmentManager());
@@ -74,9 +66,11 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
 
         nextStep = mView.findViewById(R.id.nextStep);
         previousStep = mView.findViewById(R.id.previousStep);
-        nextStep.setOnClickListener(this);
-        previousStep.setOnClickListener(this);
-        udpateButtonState();
+        if (nextStep != null && previousStep != null) {
+            nextStep.setOnClickListener(this);
+            previousStep.setOnClickListener(this);
+            udpateButtonState();
+        }
         return mView;
     }
 
@@ -116,7 +110,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         }
 
         String[] stepList = new String[mStepList.size()];
-        for(int i = 0; i <mStepList.size() ; i++) {
+        for (int i = 0; i < mStepList.size(); i++) {
             stepList[i] = mStepList.get(i).getShortDescription();
         }
         udpateButtonState();
@@ -167,11 +161,13 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         public StepSlideAdapter(FragmentManager fm) {
             super(fm);
         }
+
         @Override
         public Fragment getItem(int position) {
             return StepItemFragment
                     .newInstance(mStepList.get(position), position, mViewPager.getCurrentItem());
         }
+
         @Override
         public int getCount() {
             return mStepList.size();

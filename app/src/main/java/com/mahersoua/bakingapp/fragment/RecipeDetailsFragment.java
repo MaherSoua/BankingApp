@@ -40,15 +40,15 @@ public class RecipeDetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public void setRecipeInfo(RecipeModel recipeModel , Context context) {
+    public void setRecipeInfo(RecipeModel recipeModel, Context context) {
         mRecipeModel = recipeModel;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        if(savedInstanceState != null){
-            if(mRecipeModel == null){
+        if (savedInstanceState != null) {
+            if (mRecipeModel == null) {
                 mRecipeModel = savedInstanceState.getParcelable("recipe_model");
             }
             selectedPosition = savedInstanceState.getInt("selected_position");
@@ -59,10 +59,10 @@ public class RecipeDetailsFragment extends Fragment {
 
         StringBuilder recipeList = new StringBuilder();
 
-        for(int i = 0; i < mRecipeModel.getIngredients().size(); i++){
+        for (int i = 0; i < mRecipeModel.getIngredients().size(); i++) {
             IngredientModel ingredientModel = mRecipeModel.getIngredients().get(i);
             recipeList.append(ingredientModel.getQuantity()).append(" ").append(ingredientModel.getMeasure()).append(" ").append(ingredientModel.getIngredient());
-            if(i < mRecipeModel.getIngredients().size() - 1){
+            if (i < mRecipeModel.getIngredients().size() - 1) {
                 recipeList.append(" / ");
             }
         }
@@ -72,7 +72,7 @@ public class RecipeDetailsFragment extends Fragment {
 
         RecyclerView stepsRecylerView = view.findViewById(R.id.stepsContainer);
         stepsRecylerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mStepsAdapter = new StepsAdapter(getContext(),  mRecipeModel.getSteps());
+        mStepsAdapter = new StepsAdapter(getContext(), mRecipeModel.getSteps());
         stepsRecylerView.setAdapter(mStepsAdapter);
         mStepsAdapter.setListener(mListener);
         getActivity().setTitle(mRecipeModel.getName());
@@ -84,7 +84,7 @@ public class RecipeDetailsFragment extends Fragment {
     }
 
     public void onViewChange(int position) {
-        if(mStepsAdapter != null){
+        if (mStepsAdapter != null) {
             mStepsAdapter.onPageViewChange(position);
         }
         selectedPosition = position;
@@ -99,6 +99,6 @@ public class RecipeDetailsFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable("recipe_model", mRecipeModel);
-        outState.putInt("selected_position" , selectedPosition);
+        outState.putInt("selected_position", selectedPosition);
     }
 }

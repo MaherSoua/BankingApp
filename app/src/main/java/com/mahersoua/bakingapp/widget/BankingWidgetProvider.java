@@ -1,6 +1,5 @@
 package com.mahersoua.bakingapp.widget;
 
-import android.annotation.TargetApi;
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
@@ -8,13 +7,10 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import com.mahersoua.bakingapp.MainActivity;
 import com.mahersoua.bakingapp.R;
-import com.mahersoua.bakingapp.activities.RecipeStepsDetailsActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -41,7 +37,6 @@ public class BankingWidgetProvider extends AppWidgetProvider {
         ComponentName thisWidget = new ComponentName(context, BankingWidgetProvider.class);
         int[] appWidgetIds = AppWidgetManager.getInstance(context).getAppWidgetIds(thisWidget);
         appWidgetManager.updateAppWidget(thisWidget, remoteViews);
-
 
 
         for (int appWidgetId : appWidgetIds) {

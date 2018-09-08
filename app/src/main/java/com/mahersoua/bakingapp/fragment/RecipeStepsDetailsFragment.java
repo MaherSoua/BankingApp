@@ -20,10 +20,9 @@ public class RecipeStepsDetailsFragment extends Fragment implements StepDetailsF
 
     private List<RecipeModel> mList;
     private RecipeDetailsFragment recipeDetailsFragment;
-    private StepDetailsFragment stepDetailsFragment;
     private int currentPosition = 0;
 
-    public void setData(List<RecipeModel> list, int index){
+    public void setData(List<RecipeModel> list, int index) {
         mList = list;
         currentPosition = index;
     }
@@ -33,12 +32,12 @@ public class RecipeStepsDetailsFragment extends Fragment implements StepDetailsF
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.recipe_steps_details_fragment, container, false);
 
-        if(savedInstanceState != null){
+        if (savedInstanceState != null) {
             mList = savedInstanceState.getParcelableArrayList("recipe_list");
             currentPosition = savedInstanceState.getInt("selected_recipe");
         }
 
-        stepDetailsFragment = new StepDetailsFragment();
+        StepDetailsFragment stepDetailsFragment = new StepDetailsFragment();
         stepDetailsFragment.setStepList(mList.get(currentPosition).getSteps());
         stepDetailsFragment.setListener(this);
 
@@ -56,13 +55,13 @@ public class RecipeStepsDetailsFragment extends Fragment implements StepDetailsF
 
     @Override
     public void onViewChange(int position) {
-         recipeDetailsFragment.onViewChange(position);
+        recipeDetailsFragment.onViewChange(position);
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        if(mList != null){
+        if (mList != null) {
             outState.putParcelableArrayList("recipe_list", (ArrayList<RecipeModel>) mList);
             outState.putInt("selected_recipe", currentPosition);
         }

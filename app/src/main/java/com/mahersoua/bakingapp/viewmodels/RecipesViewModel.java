@@ -19,14 +19,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RecipesViewModel extends ViewModel {
     private MutableLiveData<ArrayList<RecipeModel>> recipeList;
 
-    public LiveData<ArrayList<RecipeModel>> getRecipes(){
-        if(recipeList == null){
+    public LiveData<ArrayList<RecipeModel>> getRecipes() {
+        if (recipeList == null) {
             loadHeroes();
         }
         return recipeList;
     }
 
-    private void loadHeroes(){
+    private void loadHeroes() {
         recipeList = new MutableLiveData<>();
 
         Retrofit retrofit = new Retrofit.Builder()
@@ -45,7 +45,7 @@ public class RecipesViewModel extends ViewModel {
 
             @Override
             public void onFailure(Call<ArrayList<RecipeModel>> call, Throwable t) {
-                Log.d("RecipeViewModel" , t.getMessage());
+                Log.d("RecipeViewModel", t.getMessage());
             }
         });
     }
