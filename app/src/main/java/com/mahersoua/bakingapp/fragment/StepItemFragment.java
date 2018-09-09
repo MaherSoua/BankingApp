@@ -43,7 +43,6 @@ public class StepItemFragment extends Fragment {
     private SimpleExoPlayer mPlayer;
     private long currentPositionPlayer;
     private int currentWindowIndex;
-    private boolean isCurrentVisible;
     private boolean autoPlay;
     private int mId;
     private SimpleExoPlayer.DefaultEventListener mPlayerListener;
@@ -86,8 +85,6 @@ public class StepItemFragment extends Fragment {
             descriptionTv.setText(mStepModel.getDescription());
         }
 
-        initializePlayer();
-
         if (mCurrentItem == mId) {
             updatePlayerDisplay();
         }
@@ -127,12 +124,6 @@ public class StepItemFragment extends Fragment {
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        releasePlayer();
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         if (mPlayer == null && Util.SDK_INT <= 23) {
@@ -146,7 +137,7 @@ public class StepItemFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (Util.SDK_INT > 23 && isCurrentVisible) {
+        if (Util.SDK_INT > 23) {
             initializePlayer();
         }
         if (isFullScreen) {
@@ -157,6 +148,13 @@ public class StepItemFragment extends Fragment {
     @Override
     public void onPause() {
         super.onPause();
+
+        if(mPlayer != null) {
+            currentPositionPlayer = mPlayer.getCurrentPosition();
+            autoPlay = mPlayer.getPlayWhenReady();
+            currentWindowIndex = mPlayer.getCurrentWindowIndex();
+        }
+
         if (Util.SDK_INT <= 23) {
             releasePlayer();
         }
@@ -208,9 +206,6 @@ public class StepItemFragment extends Fragment {
     private void releasePlayer() {
         if (mPlayer != null) {
             mPlayer.removeListener(mPlayerListener);
-            currentPositionPlayer = mPlayer.getCurrentPosition();
-            autoPlay = mPlayer.getPlayWhenReady();
-            currentWindowIndex = mPlayer.getCurrentWindowIndex();
             mPlayer.release();
             mPlayer = null;
         }
@@ -243,7 +238,7 @@ public class StepItemFragment extends Fragment {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        isCurrentVisible = isVisibleToUser;
+        boolean isCurrentVisible = isVisibleToUser;
         if (!isVisibleToUser) {
             releasePlayer();
         } else {
