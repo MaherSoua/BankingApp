@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.util.Log;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
@@ -21,20 +20,18 @@ public class GridWidgetService extends RemoteViewsService {
 }
 
 class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
-    Context mContext;
-    Intent mIntent;
-    int mSelectedRecipe;
-    String[] stepList;
+    private final Context mContext;
+    private int mSelectedRecipe;
+    private String[] stepList;
 
     public GridRemoteViewsFactory(Context context, Intent intent) {
         mContext = context;
-        mIntent = intent;
         stepList = intent.getStringArrayExtra("step-name");
     }
 
     @Override
     public void onCreate() {
-        Log.d("GridWidgetService", "///");
+
     }
 
     @Override

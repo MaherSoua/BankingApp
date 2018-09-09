@@ -22,7 +22,6 @@ import java.util.ArrayList;
 
 public class StepDetailsFragment extends Fragment implements View.OnClickListener, IStepAdapter {
 
-    private static final String TAG = "StepDetailsFragment";
     private ArrayList<StepModel> mStepList;
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
@@ -40,11 +39,6 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
 
     public void setCurrentPage(int currentIndex) {
         this.currentIndex = currentIndex;
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
     }
 
     @Nullable
@@ -69,7 +63,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         if (nextStep != null && previousStep != null) {
             nextStep.setOnClickListener(this);
             previousStep.setOnClickListener(this);
-            udpateButtonState();
+            updateButtonState();
         }
         return mView;
     }
@@ -113,7 +107,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         for (int i = 0; i < mStepList.size(); i++) {
             stepList[i] = mStepList.get(i).getShortDescription();
         }
-        udpateButtonState();
+        updateButtonState();
     }
 
     private void updateOnNext() {
@@ -130,7 +124,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         }
     }
 
-    private void udpateButtonState() {
+    private void updateButtonState() {
         nextStep.setEnabled(true);
         previousStep.setEnabled(true);
 
@@ -165,7 +159,7 @@ public class StepDetailsFragment extends Fragment implements View.OnClickListene
         @Override
         public Fragment getItem(int position) {
             return StepItemFragment
-                    .newInstance(mStepList.get(position), position, mViewPager.getCurrentItem());
+                    .newInstance(mStepList.get(position), position);
         }
 
         @Override
